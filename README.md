@@ -6,15 +6,18 @@ Before running the application, you will need to make sure you are have Maven an
 
 You can build the project and run the tests by using the following command:
 
-``` mvn clean install ```
+```bash
+mvn clean install ```
 
 Run the application using:
 
-``` mvn -pl web spring-boot:run ```
+```bash 
+mvn -pl web spring-boot:run ```
 
 This is the API endpoint to carry out the checkout request
 
-``` http://localhost:8080/checkout/ ```
+```bash
+http://localhost:8080/checkout/ ```
 
 # How did I approach it ?
 
