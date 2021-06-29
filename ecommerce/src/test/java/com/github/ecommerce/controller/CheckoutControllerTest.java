@@ -1,10 +1,12 @@
 package com.github.ecommerce.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.ecommerce.model.Discount;
 import com.github.ecommerce.model.Product;
 import com.github.ecommerce.repository.DiscountRepository;
 import com.github.ecommerce.repository.ProductRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,8 +23,9 @@ import javax.persistence.Column;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -38,11 +41,14 @@ public class CheckoutControllerTest {
     @Autowired
     DiscountRepository discountRepository;
 
-    Product product = new Product();
 
     final String PRODUCT_ID = "009";
     final String PRODUCT_NAME = "Titan";
     final Double UNIT_PRICE = 120.0;
+
+
+    Product productToSave = new Product();
+    Product savedProduct;
 
     Discount discount = new Discount();
 
@@ -50,28 +56,31 @@ public class CheckoutControllerTest {
     final Double DISCOUNT_BUNDLE_PRICE = 200.0;
 
     final Double PRICE = 120.0;
-    public final String[] CHECKOUT_PRODUCTS = new String[100];
 
 
-    /**
-     * Create a product
-     */
-    public void createProduct(){
-        product.setId(PRODUCT_ID);
-        product.setProductName(PRODUCT_NAME);
-        product.setUnitPrice(UNIT_PRICE);
-        product = productRepository.save(product);
+
+    @BeforeEach
+    public void setup() {
+        productToSave = new Product();
+        productToSave.setId(PRODUCT_ID);
+        productToSave.setProductName(PRODUCT_NAME);
+        productToSave.setUnitPrice(UNIT_PRICE);
+
+        savedProduct = productRepository.save(productToSave);
     }
 
     /**
-     * Create a discount
+     * Return objects as json
+     *
+     * @param obj
+     * @return jsonString
      */
-    public void createDiscount(){
-        discount.setProduct(product);
-        discount.setId(PRODUCT_ID);
-        discount.setProductCount(PRODUCT_COUNT);
-        discount.setDiscountBundlePrice(DISCOUNT_BUNDLE_PRICE);
-        discount = discountRepository.save(discount);
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -80,16 +89,19 @@ public class CheckoutControllerTest {
      */
     @Test
     public void checkoutProducts() throws Exception {
+        String[] CHECKOUT_PRODUCTS = new String[] {"009"};
 
-        CHECKOUT_PRODUCTS[0] = PRODUCT_ID;
 
-        RequestBuilder requestBuilder = post("/checkout/")
+        System.out.println(savedProduct);
+        RequestBuilder requestBuilder = post("/checkout")
                 .accept(MediaType.APPLICATION_JSON)
-                .content(String.valueOf(CHECKOUT_PRODUCTS))
+                .content((asJsonString(CHECKOUT_PRODUCTS)))
                 .contentType(MediaType.APPLICATION_JSON);
 
-        mockMvc.perform((requestBuilder)).andExpect(status().isOk())
-                .andExpect(jsonPath("$.price").value(PRICE));
+        mockMvc.perform((requestBuilder))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{'price':"+PRICE+"}"))
+                .andDo(print());
     }
 
     @AfterEach
