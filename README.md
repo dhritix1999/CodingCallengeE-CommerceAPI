@@ -35,7 +35,7 @@ I decided to use the Spring Framework because the organization uses Spring Boot 
 ### Step 1 
 Formulate the schema. There are two entities in the checkout system the **Product** and **Discount**, which is visualized below.
 
-![schema](https://user-images.githubusercontent.com/50911194/123850514-2c995700-d92b-11eb-9ddb-31a9e95d4c48.PNG)
+![schema](https://user-images.githubusercontent.com/50911194/123851320-18098e80-d92c-11eb-812a-e2265ed433be.PNG)
 
 ### Step 2
 Following the Spring Boot architecture, my project includes the following packapges **Model**, **Repository**,**Service**,**Controller** ,and **DTO**
@@ -46,7 +46,7 @@ Following the Spring Boot architecture, my project includes the following packap
 * Controller - Rest Resources, this has the RESTful API's (eg: POST /checkout )
 * DTO - Data Transfer Objects, to hold objects that will be derialized and deserialized.
 
-## Step 3 - Logic
+### Step 3 - Logic
 I took in an Array of Strings from the Requests Body and then called upon the **getTotalBill()** function that creates a Map of the Product Id and the number of occurences. For each entry Set I will then do the calculation for the total sum of each product, in which i will apply the discount for the applicable ammount of products. Finally, we get a total sum which the Post function will return a ResponseEntity with the Bill DTO which has the price and a HttpStatus of 200 O.K.
 
 ## Testing and Results
@@ -58,7 +58,7 @@ I added the Junit 5 in my dependencies. I used assert to test the results and @B
 ### Controller Testing
 I used the Spring  MVC  test  framework  to  write  and  run integration  tests  that  test controllers. I added annotations @SpringBootTest and @AutoConfigureMockMvc to integrate test classes SpringMockMVC. MockMvc performs full Spring MVC request handling but via mock request and response objects. I tested if the '/checkout' api works and it returns the proper format.
 
-Through testing I was able to fix some minor issues and additionally I tested the API with POSTMAN.
+Through testing I was able to fix some minor issues and additionally I tested the API with POSTMAN (shown below)
 
 ![postman_example](https://user-images.githubusercontent.com/50911194/123850555-3cb13680-d92b-11eb-98cd-898c4367a716.PNG)
 
