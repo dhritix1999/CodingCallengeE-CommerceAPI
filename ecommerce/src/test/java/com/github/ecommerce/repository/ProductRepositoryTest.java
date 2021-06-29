@@ -13,7 +13,7 @@ public class ProductRepositoryTest {
     @Autowired
     public ProductRepository productRepository;
 
-    final String PRODUCT_ID = "005";
+    final String PRODUCT_ID = "009";
     final String PRODUCT_NAME = "Titan";
     final Double UNIT_PRICE = 120.0;
 
