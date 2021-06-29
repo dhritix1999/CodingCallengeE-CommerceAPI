@@ -48,12 +48,7 @@ public class CheckoutControllerTest {
 
 
     Product productToSave = new Product();
-    Product savedProduct;
-
-    Discount discount = new Discount();
-
-    final Long PRODUCT_COUNT = 2L;
-    final Double DISCOUNT_BUNDLE_PRICE = 200.0;
+    Product savedProduct = new Product();
 
     final Double PRICE = 120.0;
 
@@ -106,7 +101,7 @@ public class CheckoutControllerTest {
 
     @AfterEach
     public void cleanup(){
+        discountRepository.deleteAll();
        productRepository.deleteAll();
-       discountRepository.deleteAll();
     }
 }
