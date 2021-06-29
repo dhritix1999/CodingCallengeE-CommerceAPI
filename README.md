@@ -14,7 +14,7 @@ This is my solution for Maha's backend coding challenge, where I built a simple 
 # How to Run
 Before running the application, you will need to make sure you are have Maven and Java 11
 
-You can build the project and run the tests by using the following command:
+You can build the project by using the following command:
 ```bash
 mvn clean install 
 ```
@@ -30,7 +30,7 @@ http://localhost:8080/checkout
 ```
 
 # How did I approach it ?
-I decided to use the Spring Framework because the organization uses Spring Boot and Java technologies so I decided that was the best technology stack to go with. The task itself was simple as only one API endpoint was needed. Since only a simple checkout action was needed to be carried out, we could go with a clean and simple approach but I decided to create a solution that would allow future changes to be integrated easily. The steps of my design are written below as steps.
+I decided to use the Spring Framework because the organization uses Spring Boot and Java technologies so I decided that was the best technology stack to go with. The task itself was simple as only one API endpoint was needed. Since only a simple checkout action was needed to be carried out, we could go with a clean and simple approach but I decided to create a solution that would allow future changes to be integrated easily. The steps of my design are written below.
 
 ### Step 1 
 Formulate the schema. There are two entities in the checkout system the **Product** and **Discount**, which is visualized below.
@@ -38,16 +38,16 @@ Formulate the schema. There are two entities in the checkout system the **Produc
 ![schema](https://user-images.githubusercontent.com/50911194/123851320-18098e80-d92c-11eb-812a-e2265ed433be.PNG)
 
 ### Step 2
-Following the Spring Boot architecture, my project includes the following packapges **Model**, **Repository**,**Service**,**Controller** ,and **DTO**
+Following the Spring Boot architecture, my project includes the following packapges **Model**, **Repository**, **Service**, **Controller** ,and **DTO**
 
 * Model - This is the domain, has all the entities related to our system
 * Repository - Contains the interfaces through which we access and manage the models.
 * Service - these are application services, where I call the repositories to perform different tasks (eg: calculating the sum of the checkout products)
 * Controller - Rest Resources, this has the RESTful API's (eg: POST /checkout )
-* DTO - Data Transfer Objects, to hold objects that will be derialized and deserialized.
+* DTO - Data Transfer Objects, to hold objects that will be derialized and deserialized. (eg for Response Body, price)
 
 ### Step 3 - Logic
-I took in an Array of Strings from the Requests Body and then called upon the **getTotalBill()** function that creates a Map of the Product Id and the number of occurences. For each entry Set I will then do the calculation for the total sum of each product, in which i will apply the discount for the applicable ammount of products. Finally, we get a total sum which the Post function will return a ResponseEntity with the Bill DTO which has the price and a HttpStatus of 200 O.K.
+I took in an Array of Strings from the Requests Body and then called upon the **getTotalBill()** function that creates a Map of the Product Id and the number of occurences. For each entry Set I will then do the calculation for the total sum of each product, in which I will apply the discount for the applicable ammount of products. Finally, we get a total sum which the Post function will return a ResponseEntity with the Bill DTO which has the price and a HttpStatus of 200 OK.
 
 ## Testing and Results
 For testing I tested both the controllers and the repository. 
@@ -64,4 +64,4 @@ Through testing I was able to fix some minor issues and additionally I tested th
 
 # What would I improve ?
 
-Since I did a simple implementation, my api returns price = 0.0, for most types of wrong POST body, this can be expanded by including an **exception** package to return a message with unique messages explaining what the error is. If there were other details/entities to consider I would have gone with a different design and implementation. My function in the Service packages could be fineesed to improve the complexity with the use of better Java classes and code.
+Since I did a simple implementation, my api returns price = 0.0, for most types of wrong POST body, this can be corrected and expanded by including an **exception** package to return a message with unique messages explaining what the error is. If there were other details/entities to consider I would have gone with a different design and implementation. My function in the Service packages could be fineesed to improve the complexity with the use of better Java classes and code.
