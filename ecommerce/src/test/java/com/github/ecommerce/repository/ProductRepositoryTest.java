@@ -11,35 +11,34 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ProductRepositoryTest {
 
     @Autowired
-    public ProductRepository productRepository;
+    ProductRepository productRepository;
 
-    final String PRODUCT_ID = "009";
-    final String PRODUCT_NAME = "Titan";
-    final Double UNIT_PRICE = 120.0;
+    public final String PRODUCT_ID = "009";
+    public final String PRODUCT_NAME = "Titan";
+    public final Double UNIT_PRICE = 120.0;
 
-    Product product;
+    Product productToSave = new Product();
+    Product savedProduct;
 
     /**
      * create product
      */
     @BeforeEach
     public void setup(){
-        product = new Product();
-        product.setId(PRODUCT_ID);
-        product.setProductName(PRODUCT_NAME);
-        product.setUnitPrice(UNIT_PRICE);
+        productToSave = new Product();
+        productToSave.setId(PRODUCT_ID);
+        productToSave.setProductName(PRODUCT_NAME);
+        productToSave.setUnitPrice(UNIT_PRICE);
 
-       product = productRepository.save(product);
+        savedProduct = productRepository.save(productToSave);
     }
 
     /**
      * Product details shall be saved correctly.
      */
     @Test
-    public void save(){
-        Product product = productRepository.findById(PRODUCT_ID).get();
-        assert (product.getProductName().equals(PRODUCT_NAME));
-        assert (product.getUnitPrice().equals(UNIT_PRICE));
+    public void getProduct(){
+        assert (productRepository.findById(savedProduct.getId()).isPresent());
     }
 
     @AfterEach
