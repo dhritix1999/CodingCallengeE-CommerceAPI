@@ -11,7 +11,7 @@ public class Discount implements Serializable {
     String id;
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
 
@@ -54,9 +54,14 @@ public class Discount implements Serializable {
         this.discountBundlePrice = discountBundlePrice;
     }
 
-    public String toString(){
-        return "Discount(productId=" + this.getId() +
-                ", productCount="+ this.getProductCount() +
-                ", discountBundlePrice="+this.getDiscountBundlePrice()+ ")";
+
+    @Override
+    public String toString() {
+        return "Discount{" +
+                "id='" + id + '\'' +
+                ", product=" + product +
+                ", productCount=" + productCount +
+                ", discountBundlePrice=" + discountBundlePrice +
+                '}';
     }
 }
