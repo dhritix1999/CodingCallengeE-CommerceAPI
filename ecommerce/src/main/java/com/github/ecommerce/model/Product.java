@@ -1,6 +1,8 @@
 package com.github.ecommerce.model;
 
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -12,8 +14,6 @@ import java.io.Serializable;
 public class Product implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
     private String id;
 
     @Column(name = "product_name")
@@ -46,4 +46,14 @@ public class Product implements Serializable {
     public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", productName='" + productName + '\'' +
+                ", unitPrice=" + unitPrice +
+                '}';
+    }
 }
+
