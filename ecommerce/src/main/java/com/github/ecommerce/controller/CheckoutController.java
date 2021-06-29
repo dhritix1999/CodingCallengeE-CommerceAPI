@@ -22,6 +22,13 @@ public class CheckoutController {
         this.productService = productService;
     }
 
+    /**
+     * {@code POST /checkout} : checkout products from the catalogue
+     *
+     * @param productIds array of product IDs
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with the body that has the total calculated
+     * price of the sum of products with discount if applicable.
+     */
     @PostMapping
     public ResponseEntity<Bill> checkoutProducts(@RequestBody String[] productIds){
 
